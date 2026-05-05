@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Élan Motors | premium car rental</title>
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Google Fonts (Poppins + Playfair Display for accent) -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+    <!-- AOS (scroll reveal) library -->
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <style>
+        /* ---------- GLOBAL & VARIABLES ---------- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            background: #0b0b0b;
+            color: #fff;
+            overflow-x: hidden;
+        }
+
+        :root {
+            --gold: #d4af37;
+            --gold-light: #f5e7b2;
+            --black: #0a0a0a;
+            --black-soft: #1a1a1a;
+            --white: #fefefe;
+            --glass: rgba(255, 255, 255, 0.08);
+            --glass-border: rgba(255, 255, 255, 0.12);
+        }
+
+        h1,
+        h2,
+        h3,
+        h4 {
+            font-weight: 600;
+            letter-spacing: -0.02em;
+        }
+
+        .section-title {
+            font-family: 'Playfair Display', serif;
+            color: var(--gold);
+            margin-bottom: 2rem;
+        }
+
+        .glass-btn,
+        .btn-gold {
+            background: linear-gradient(145deg, #c9a227, #b48a2c);
+            border: none;
+            color: #000;
+            font-weight: 600;
+            border-radius: 40px;
+            padding: 12px 30px;
+            transition: all 0.3s ease;
+            box-shadow: 0 10px 20px rgba(212, 175, 55, 0.3);
+        }
+
+        .btn-gold:hover {
+            background: #e0b84d;
+            transform: translateY(-3px);
+            box-shadow: 0 20px 30px rgba(212, 175, 55, 0.5);
+            color: #000;
+        }
+
+        .glass-card {
+            background: var(--glass);
+            backdrop-filter: blur(14px);
+            -webkit-backdrop-filter: blur(14px);
+            border: 1px solid var(--glass-border);
+            border-radius: 28px;
+            box-shadow: 0 25px 40px -10px rgba(0, 0, 0, 0.6);
+            transition: transform 0.3s ease, border-color 0.2s;
+        }
+
+        .glass-card:hover {
+            border-color: var(--gold);
+            transform: scale(1.02);
+        }
+
+        /* ---------- STICKY NAVBAR (GLASS) ---------- */
+        .navbar {
+            background: rgba(10, 10, 10, 0.75) !important;
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(212, 175, 55, 0.3);
+            transition: 0.3s;
+            padding: 15px 0;
+        }
+
+        .navbar .nav-link {
+            color: #fff !important;
+            font-weight: 500;
+            margin: 0 10px;
+            position: relative;
+        }
+
+        .navbar .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 50%;
+            width: 0;
+            height: 2px;
+            background: var(--gold);
+            transition: 0.3s;
+            transform: translateX(-50%);
+        }
+
+        .navbar .nav-link:hover::after {
+            width: 80%;
+        }
+
+        .navbar-brand {
+            font-weight: 700;
+            font-size: 28px;
+            color: var(--gold) !important;
+            letter-spacing: 2px;
+        }
+
+        /* ---------- HERO ANIMATED BG ---------- */
+        .hero {
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+            position: relative;
+            background: url('https://images.pexels.com/photos/120049/pexels-photo-120049.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2') center/cover no-repeat;
+            background-attachment: fixed;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: radial-gradient(circle at 30% 30%, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.9));
+        }
+
+        .hero-content {
+            position: relative;
+            z-index: 2;
+        }
+
+        .search-panel {
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(18px);
+            border: 1px solid var(--gold);
+            border-radius: 50px;
+            padding: 20px;
+            box-shadow: 0 30px 40px #00000070;
+        }
+
+        /* ---------- CARD SLIDER / FEATURED ---------- */
+        .car-card {
+            background: var(--black-soft);
+            border-radius: 28px;
+            padding: 18px;
+            border: 1px solid #333;
+            transition: 0.4s;
+        }
+
+        .car-card:hover {
+            border-color: var(--gold);
+            transform: translateY(-12px) scale(1.02);
+            box-shadow: 0 30px 40px -15px #d4af3740;
+        }
+
+        .car-card img {
+            border-radius: 20px;
+            height: 180px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .rating i {
+            color: var(--gold);
+            margin-right: 3px;
+        }
+
+        /* ---------- FOOTER ---------- */
+        .footer {
+            background: #0f0f0f;
+            border-top: 1px solid #282828;
+        }
+
+        .social-icon {
+            display: inline-flex;
+            width: 45px;
+            height: 45px;
+            background: #222;
+            border-radius: 50%;
+            align-items: center;
+            justify-content: center;
+            margin: 0 6px;
+            color: var(--gold);
+            transition: 0.3s;
+        }
+
+        .social-icon:hover {
+            background: var(--gold);
+            color: #000;
+            transform: scale(1.1);
+        }
+
+        /* ---------- ADMIN DASHBOARD ---------- */
+        .sidebar {
+            background: #121212;
+            min-height: 100vh;
+            border-right: 1px solid #2d2d2d;
+        }
+
+        .stat-card {
+            background: #1f1f1f;
+            border-left: 5px solid var(--gold);
+            border-radius: 16px;
+            padding: 20px;
+        }
+
+        /* ---------- LOADING ANIMATION ---------- */
+        .preloader {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: #000;
+            z-index: 9999;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: opacity 0.6s;
+        }
+
+        .loader {
+            width: 70px;
+            height: 70px;
+            border-radius: 50%;
+            border: 5px solid #2b2b2b;
+            border-top-color: var(--gold);
+            animation: spin 0.9s infinite linear;
+        }
+
+        @keyframes spin {
+            0% {
+                transform: rotate(0);
+            }
+
+            100% {
+                transform: rotate(360deg);
+            }
+        }
+
+        /* ---------- FLIP CARD LOGIN ---------- */
+        .flip-card {
+            background-color: transparent;
+            width: 100%;
+            height: 500px;
+            perspective: 2500px;
+        }
+
+        .flip-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.8s;
+            transform-style: preserve-3d;
+        }
+
+        .flip-card:hover .flip-inner {
+            transform: rotateY(180deg);
+        }
+
+        .flip-front,
+        .flip-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 40px;
+            padding: 30px;
+            background: rgba(20, 20, 20, 0.7);
+            backdrop-filter: blur(20px);
+            border: 1px solid var(--gold);
+        }
+
+        .flip-back {
+            transform: rotateY(180deg);
+        }
+
+        /* ---------- SCROLL TO TOP ---------- */
+        #scrollTop {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            width: 50px;
+            height: 50px;
+            background: var(--gold);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: black;
+            cursor: pointer;
+            opacity: 0;
+            transition: 0.3s;
+            pointer-events: none;
+            z-index: 99;
+            border: none;
+        }
+
+        #scrollTop.show {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* ---------- RESPONSIVE ---------- */
+        @media (max-width: 768px) {
+            .navbar-collapse {
+                background: rgba(0, 0, 0, 0.95);
+                padding: 20px;
+                border-radius: 20px;
+            }
+        }
+
+        /* counters */
+        .counter {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--gold);
+        }
+    </style>
+</head>
+
+<body>
+    <!-- PRELOADER -->
+    <div class="preloader" id="preloader">
+        <div class="loader"></div>
+    </div>
+
+    <!-- STICKY NAVBAR -->
+    <nav class="navbar navbar-expand-lg sticky-top">
+        <div class="container">
+            <a class="navbar-brand" href="#"><i class="fas fa-car-side me-2" style="color: var(--gold);"></i>Élan</a>
+            <button class="navbar-toggler bg-gold" type="button" data-bs-toggle="collapse"
+                data-bs-target="#navbarNav"><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav ms-auto">
+                    <li class="nav-item"><a class="nav-link" href="#home">Home</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?page=cars">Cars</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?page=details">Details</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?page=booking">Booking</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?page=login">Login</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?page=admin">Admin</a></li>
+                    <li class="nav-item"><a class="nav-link" href="?page=contact">Contact</a></li>
+                </ul>
+            </div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTENT (simulated multi-page, all sections visible for demo) -->
+    <main>
+        <!-- HOME SECTION (page 1) -->
+        <section id="home" class="hero" style="background-attachment: fixed;">
+            <div class="container hero-content">
+                <div class="row align-items-center">
+                    <div class="col-lg-6 mb-5" data-aos="fade-right">
+                        <h1 class="display-3 fw-bold"><span style="color:var(--gold);">Drive</span> the extraordinary
+                        </h1>
+                        <p class="lead">Luxury car rental with white‑glove service. Choose from our elite fleet.</p>
+                    </div>
+                    <div class="col-lg-6" data-aos="fade-left">
+                        <div class="search-panel p-4">
+                            <h4 class="mb-3"><i class="fas fa-search me-2 gold"></i>Find your ride</h4>
+                            <form class="row g-3">
+                                <div class="col-md-6"><input type="text"
+                                        class="form-control bg-dark text-white border-gold"
+                                        placeholder="Pickup location"></div>
+                                <div class="col-md-6"><input type="date" class="form-control bg-dark text-white"></div>
+                                <div class="col-md-6"><input type="date" class="form-control bg-dark text-white"
+                                        placeholder="Return"></div>
+                                <div class="col-md-6"><select class="form-select bg-dark text-white">
+                                        <option>Any car</option>
+                                    </select></div>
+                                <div class="col-12"><button class="btn btn-gold w-100">Search <i
+                                            class="fas fa-arrow-right"></i></button></div>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- FEATURED CARS SLIDER -->
+        <section class="container py-5">
+            <h2 class="section-title text-center" data-aos="fade-up">Featured fleet</h2>
+            <div class="row g-4" id="featuredSlider">
+                <div class="col-md-4" data-aos="zoom-in-up">
+                    <div class="car-card"><img
+                            src="https://images.pexels.com/photos/2127733/pexels-photo-2127733.jpeg?auto=compress&cs=tinysrgb&w=600"
+                            alt="">
+                        <h5 class="mt-3">Ferrari Roma</h5>
+                        <p class="mb-1">$1,200 <small>/day</small></p>
+                        <div class="rating mb-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star-half-alt"></i>
+                        </div><button class="btn btn-outline-warning w-100">Book now</button>
+                    </div>
+                    
+                </div>
+                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="100">
+                    <div class="car-card"><img
+                            src="https://images.pexels.com/photos/2365572/pexels-photo-2365572.jpeg?auto=compress&cs=tinysrgb&w=600"
+                            alt="">
+                        <h5 class="mt-3">Range Rover Sport</h5>
+                        <p>$899 <small>/day</small></p>
+                        <div class="rating mb-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <button class="btn btn-outline-warning w-100">Book now</button>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="zoom-in-up" data-aos-delay="200">
+                    <div class="car-card"><img
+                            src="https://images.pexels.com/photos/3840986/pexels-photo-3840986.jpeg?auto=compress&cs=tinysrgb&w=600"
+                            alt="">
+                        <h5 class="mt-3">Porsche 911</h5>
+                        <p>$1,050 <small>/day</small></p>
+                        <div class="rating mb-2"><i class="fas fa-star"></i><i class="fas fa-star"></i><i
+                                class="fas fa-star"></i><i class="fas fa-star"></i><i class="fas fa-star"></i></div>
+                        <button class="btn btn-outline-warning w-100">Book now</button>
+                    </div>
+                </div>
+            </div>
+
+            
+        </section>
+
+        <!-- SERVICES + ABOUT / TESTIMONIALS / CTA (compressed for length) -->
+        <section class="container py-4">
+            <div class="row g-4">
+                <div class="col-md-4" data-aos="fade-up">
+                    <div class="glass-card p-4 text-center"><i class="fas fa-gem fa-3x" style="color:var(--gold);"></i>
+                        <h4 class="my-3">Luxury Cars</h4>
+                        <p>Exclusive fleet from top brands</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="80">
+                    <div class="glass-card p-4 text-center"><i class="fas fa-tag fa-3x" style="color:var(--gold);"></i>
+                        <h4 class="my-3">Affordable Price</h4>
+                        <p>Best value for premium rides</p>
+                    </div>
+                </div>
+                <div class="col-md-4" data-aos="fade-up" data-aos-delay="160">
+                    <div class="glass-card p-4 text-center"><i class="fas fa-headset fa-3x"
+                            style="color:var(--gold);"></i>
+                        <h4 class="my-3">24/7 Support</h4>
+                        <p>We're always here for you</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ABOUT + TESTIMONIALS (mini) -->
+        <section class="container py-5">
+            <div class="row align-items-center">
+                <div class="col-lg-6" data-aos="fade-right"><img
+                        src="https://images.pexels.com/photos/3807279/pexels-photo-3807279.jpeg?auto=compress&cs=tinysrgb&w=600"
+                        class="img-fluid rounded-5 glass-card p-2" alt=""></div>
+                <div class="col-lg-6" data-aos="fade-left">
+                    <h2 class="section-title">About Élan</h2>
+                    <p>Decade of excellence in luxury car rentals. Hand‑picked cars, exceptional service.</p>
+                    <div class="d-flex gap-4">
+                        <div><span class="counter" data-target="250">0</span><span>+ cars</span></div>
+                        <div><span class="counter" data-target="15">0</span>k+ clients</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- TESTIMONIAL SLIDER (static items) -->
+        <section class="container py-4">
+            <div id="testimonialCarousel" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <div class="glass-card p-5 text-center mx-auto" style="max-width:700px;">“Flawless experience
+                            from start to finish.” – Sarah J.</div>
+                    </div>
+                    <div class="carousel-item">
+                        <div class="glass-card p-5 text-center mx-auto" style="max-width:700px;">“Best luxury rental,
+                            the 911 was pristine.” – Michael K.</div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CALL TO ACTION -->
+        <section class="container my-5 p-5 text-center"
+            style="background: linear-gradient(145deg, #1e1e1e, #0a0a0a); border-radius:60px;" data-aos="flip-up">
+            <h2 class="text-gold">Ready to drive your dream?</h2><button class="btn btn-gold mt-3 px-5 py-3">Reserve
+                now</button>
+        </section>
+
+        <!-- CARS PAGE (2) preview: grid with filters -->
+        <section id="cars" class="container py-5 border-top border-secondary">
+            <h2 class="section-title">Browse by category</h2>
+            <div class="btn-group my-3" role="group"><button class="btn btn-outline-warning filter-btn"
+                    data-filter="all">All</button><button class="btn btn-outline-warning"
+                    data-filter="suv">SUV</button><button class="btn btn-outline-warning"
+                    data-filter="sports">Sports</button></div>
+            <div class="row g-4" id="carGrid">
+                <div class="col-md-4 suv">
+                    <div class="car-card"><img
+                            src="https://images.pexels.com/photos/112460/pexels-photo-112460.jpeg?auto=compress&cs=tinysrgb&w=600"
+                            alt="">
+                        <h5>BMW X7</h5>
+                        <p>$750/day</p><button class="btn btn-sm btn-gold">Book now</button>
+                    </div>
+                </div>
+                <div class="col-md-4 sports">
+                    <div class="car-card"><img
+                            src="https://images.pexels.com/photos/337909/pexels-photo-337909.jpeg?auto=compress&cs=tinysrgb&w=600"
+                            alt="">
+                        <h5>McLaren GT</h5>
+                        <p>$2k/day</p><button class="btn btn-sm btn-gold">Book now</button>
+                    </div>
+                </div>
+                <div class="col-md-4 sedan">
+                    <div class="car-card"><img
+                            src="https://images.pexels.com/photos/170811/pexels-photo-170811.jpeg?auto=compress&cs=tinysrgb&w=600"
+                            alt="">
+                        <h5>Mercedes S Class</h5>
+                        <p>$890/day</p><button class="btn btn-sm btn-gold">Book now</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- CAR DETAILS (3) gallery / specs -->
+        <section class="container py-5 border-top">
+            <div class="row">
+                <div class="col-lg-7">
+                    <div id="carGallery" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner">
+                            <div class="carousel-item active"><img
+                                    src="https://images.pexels.com/photos/1149831/pexels-photo-1149831.jpeg?auto=compress&cs=tinysrgb&w=600"
+                                    class="d-block w-100 rounded-4"></div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-lg-5">
+                    <h2>Lamborghini Urus</h2>
+                    <p class="text-gold h3">$1,500/day</p>
+                    <ul class="list-unstyled">
+                        <li><i class="fas fa-check-circle gold me-2"></i>650 HP</li>
+                        <li><i class="fas fa-check-circle gold me-2"></i>Leather seats</li>
+                    </ul><button class="btn btn-gold mt-3">Proceed to book</button>
+                </div>
+            </div>
+        </section>
+
+        <!-- BOOKING PAGE (4) with confirmation popup -->
+        <section class="container py-5 border-top">
+            <h2 class="section-title">Complete your booking</h2>
+            <form id="bookingForm" class="row g-3 glass-card p-5">
+                <div class="col-md-6"><input class="form-control bg-dark" placeholder="Full name" required></div>
+                <div class="col-md-6"><input class="form-control bg-dark" placeholder="Phone" required></div>
+                <div class="col-md-6"><input type="email" class="form-control bg-dark" placeholder="Email"></div>
+                <div class="col-md-6"><input class="form-control bg-dark" placeholder="Pickup location"></div>
+                <div class="col-md-3"><input type="date" class="form-control bg-dark"></div>
+                <div class="col-md-3"><input type="date" class="form-control bg-dark"></div>
+                <div class="col-md-6"><select class="form-select bg-dark">
+                        <option>Select car</option>
+                        <option>Ferrari</option>
+                    </select></div>
+                <div class="col-12"><button type="button" class="btn btn-gold animated-btn"
+                        onclick="confirmBooking()">Confirm booking</button></div>
+            </form>
+        </section>
+
+        <!-- LOGIN / SIGNUP FLIP (5) -->
+        <section class="container py-5">
+            <div class="flip-card mx-auto" style="max-width:500px;">
+                <div class="flip-inner">
+                    <div class="flip-front">
+                        <h3 class="mb-3">Customer login</h3><input class="form-control mb-3" placeholder="Email"><input
+                            type="password" class="form-control mb-3" placeholder="Password"><button
+                            class="btn btn-gold w-100">Sign in</button>
+                        <p class="mt-2">New? flip card →</p>
+                    </div>
+                    <div class="flip-back">
+                        <h3 class="mb-3">Admin login</h3><input class="form-control mb-3" placeholder="Admin ID"><input
+                            type="password" class="form-control mb-3" placeholder="pass"><button
+                            class="btn btn-gold w-100">Login as admin</button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- ADMIN DASHBOARD (6) condensed -->
+        <section class="container-fluid py-5 border-top">
+            <div class="row">
+                <div class="col-md-3 sidebar p-4">
+                    <h4 class="text-gold">Admin</h4>
+                    <ul class="nav flex-column">
+                        <li class="nav-item">Dashboard</li>
+                        <li>Manage bookings</li>
+                        <li>Add car</li>
+                    </ul>
+                </div>
+                <div class="col-md-9">
+                    <div class="row">
+                        <div class="col-md-4">
+                            <div class="stat-card">Bookings: 182</div>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="stat-card">Customers: 94</div>
+                        </div>
+                    </div><canvas id="bookingChart" height="100"></canvas>
+                </div>
+            </div>
+        </section>
+
+        <!-- CONTACT (7) -->
+        <section class="container py-5">
+            <div class="row">
+                <div class="col-md-6">
+                    <h2>Contact us</h2>
+                    <form><input class="form-control mb-2" placeholder="Name"><input class="form-control mb-2"
+                            placeholder="Email"><textarea class="form-control mb-2" rows="3"></textarea><button
+                            class="btn btn-gold">Send</button></form>
+                </div>
+                <div class="col-md-6"><iframe
+                        src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!2d... width='100%' height='250' style='border:0;' allowfullscreen="" loading="
+                        lazy"></iframe></div>
+            </div>
+        </section>
+    </main>
+
+    <!-- FOOTER -->
+    <footer class="footer pt-5 pb-4">
+        <div class="container text-center">
+            <div class="social-links"><a href="#" class="social-icon"><i class="fab fa-facebook-f"></i></a><a href="#"
+                    class="social-icon"><i class="fab fa-instagram"></i></a><a href="#" class="social-icon"><i
+                        class="fab fa-x-twitter"></i></a></div>
+            <p class="mt-3">© 2026 Élan Motors. All rights reserved.</p>
+        </div>
+    </footer>
+
+    <!-- SCROLL TO TOP -->
+    <div id="scrollTop"><i class="fas fa-chevron-up"></i></div>
+
+    <!-- MODAL POPUP (booking confirmation) -->
+    <div class="modal fade" id="confirmModal" tabindex="-1">
+        <div class="modal-dialog">
+            <div class="modal-content bg-black text-white">
+                <div class="modal-header">
+                    <h5 class="modal-title"><i class="fas fa-check-circle text-gold"></i> Booking received</h5><button
+                        type="button" class="btn-close btn-close-white" data-bs-dismiss="modal"></button>
+                </div>
+                <div class="modal-body">We'll contact you shortly.</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- SCRIPTS -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        AOS.init({ duration: 1000, once: true });
+        // preloader
+        window.addEventListener('load', () => { document.getElementById('preloader').style.opacity = '0'; setTimeout(() => { document.getElementById('preloader').style.display = 'none'; }, 600); });
+        // sticky scroll top
+        const scrollBtn = document.getElementById('scrollTop');
+        window.onscroll = () => { if (window.scrollY > 500) scrollBtn.classList.add('show'); else scrollBtn.classList.remove('show'); };
+        scrollBtn.onclick = () => window.scrollTo({ top: 0, behavior: 'smooth' });
+        // booking confirmation modal
+        function confirmBooking() { new bootstrap.Modal(document.getElementById('confirmModal')).show(); }
+        // simple filter simulation
+        document.querySelectorAll('.filter-btn').forEach(btn => { btn.addEventListener('click', () => { /* filter logic */ alert('filter applied (demo)'); }); });
+        // counters animation
+        const counters = document.querySelectorAll('.counter');
+        const speed = 200;
+        counters.forEach(counter => { const update = () => { const target = +counter.getAttribute('data-target'); const count = +counter.innerText; const inc = target / 50; if (count < target) { counter.innerText = Math.ceil(count + inc); setTimeout(update, 30); } else counter.innerText = target; }; update(); });
+        // tiny chart
+        const ctx = document.getElementById('bookingChart')?.getContext('2d');
+        if (ctx) new Chart(ctx, { type: 'line', data: { labels: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri'], datasets: [{ label: 'bookings', data: [12, 19, 8, 15, 24], borderColor: '#d4af37' }] } });
+        // hamburger menu (bootstrap handles)
+        // parallax effect on hero (simple)
+        window.addEventListener('scroll', () => { document.querySelector('.hero').style.backgroundPositionY = window.scrollY * 0.2 + 'px'; });
+    </script>
+    <!-- extra inline for gold style -->
+    <style>
+        .bg-gold {
+            background-color: var(--gold) !important;
+        }
+
+        .border-gold {
+            border-color: var(--gold) !important;
+        }
+
+        .text-gold {
+            color: var(--gold);
+        }
+
+        .btn-outline-warning {
+            border-color: var(--gold);
+            color: var(--gold);
+        }
+
+        .btn-outline-warning:hover {
+            background: var(--gold);
+            color: #000;
+        }
+
+        .carousel-item {
+            transition: transform 0.8s ease;
+        }
+
+        .animated-btn {
+            transition: 0.3s;
+        }
+
+        .animated-btn:hover {
+            letter-spacing: 2px;
+        }
+    </style>
+</body>
+
+</html>
